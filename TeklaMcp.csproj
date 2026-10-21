@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- A Open API do Tekla 2026 conecta via Trimble.Remoting; o canal é nomeado pela versão das DLLs,
+         então usamos as DLLs da própria instalação (net48), não os pacotes NuGet. -->
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <PlatformTarget>x64</PlatformTarget>
+    <RootNamespace>TeklaMcp</RootNamespace>
+    <AssemblyName>TeklaMcp</AssemblyName>
+    <Version>1.0.0</Version>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS8632;MSB3277</NoWarn>
+    <TeklaBin Condition="'$(TeklaBin)' == ''">C:\TeklaStructures\2026.0\bin</TeklaBin>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="System.IO" />
+    <Compile Remove="tests/**;dist/**" />
+    <None Remove="tests/**;dist/**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ModelContextProtocol" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.14.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Referências da instalação: nunca copiadas; resolvidas em runtime de TeklaEnv.BinDir. -->
+    <Reference Include="Tekla.Structures"><HintPath>$(TeklaBin)\Net48Runtime\Tekla.Structures.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Tekla.Structures.Model"><HintPath>$(TeklaBin)\Tekla.Structures.Model.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Tekla.Structures.Drawing"><HintPath>$(TeklaBin)\Tekla.Structures.Drawing.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Tekla.Structures.Datatype"><HintPath>$(TeklaBin)\Tekla.Structures.Datatype.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Tekla.Structures.Catalogs"><HintPath>$(TeklaBin)\Tekla.Structures.Catalogs.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+
+</Project>
